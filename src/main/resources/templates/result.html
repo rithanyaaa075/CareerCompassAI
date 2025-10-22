@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>CareerCompassAI - Resume Analysis Result</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 85%;
+      margin: 40px auto;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.01);
+    }
+    h1, h2 {
+      color: #222;
+    }
+    p {
+      color: #333;
+      line-height: 1.6;
+    }
+    .highlight {
+      background-color: #eaf7ff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #007acc;
+    }
+    .score {
+      font-size: 18px;
+      color: #007b5e;
+      font-weight: bold;
+    }
+    ul {
+      list-style: square;
+      margin-left: 20px;
+    }
+    .certifications li {
+      margin-bottom: 5px;
+    }
+    .back-button {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .back-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="card">
+    <h1>📄 Resume Analysis Result</h1>
+    <p><b>Preview of Extracted Text:</b></p>
+    <p th:text="${resumeTextPreview}">Resume text goes here...</p>
+  </div>
+
+  <div class="card">
+    <h2>💡 Extracted Skills</h2>
+    <p>
+      <span th:if="${extractedSkills != null and #lists.size(extractedSkills) > 0}"
+            th:text="${#strings.arrayJoin(extractedSkills, ', ')}"></span>
+      <span th:if="${extractedSkills == null or #lists.isEmpty(extractedSkills)}">
+        No skills detected from the uploaded resume.
+      </span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Best Fit Role</h2>
+    <p><b>Recommended Role:</b> <span class="highlight" th:text="${bestFitRole}"></span></p>
+    <p class="score">Match Score: <span th:text="${bestScore}"></span>%</p>
+  </div>
+
+  <div class="card">
+    <h2>📊 Match Scores (Top 5 Roles)</h2>
+    <ul>
+      <li th:each="entry : ${matchScores}">
+        <b th:text="${entry.key}"></b>: <span th:text="${entry.value}"></span>%
+      </li>
+    </ul>
+  </div>
+
+  <!-- ✅ Skill Gap Analysis Section (Your Code Added Here) -->
+  <div class="card">
+    <h2>🧩 Skill Gap Analysis</h2>
+
+    <p><b>Matched Skills:</b>
+      <span th:if="${matchedSkills != null and #lists.size(matchedSkills) > 0}" 
+            th:text="${#strings.arrayJoin(matchedSkills, ', ')}"></span>
+      <span th:if="${matchedSkills == null or #lists.isEmpty(matchedSkills)}">No strong matches found.</span>
+    </p>
+
+    <p><b>Missing Skills:</b>
+      <span th:if="${missingSkills != null and #lists.size(missingSkills) > 0}" 
+            th:text="${#strings.arrayJoin(missingSkills, ', ')}"></span>
+      <span th:if="${missingSkills == null or #lists.isEmpty(missingSkills)}">No major skill gaps detected 🎯</span>
+    </p>
+
+    <p><b>Suggested to Learn:</b>
+      <span th:if="${suggestedSkills != null and #lists.size(suggestedSkills) > 0}" 
+            th:text="${#strings.arrayJoin(suggestedSkills, ', ')}"></span>
+      <span th:if="${suggestedSkills == null or #lists.isEmpty(suggestedSkills)}">You're up-to-date with trending skills! 🚀</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🏅 Recommended Certifications</h2>
+    <ul class="certifications">
+      <li th:each="cert : ${certifications}" th:text="${cert}"></li>
+    </ul>
+  </div>
+
+  <div class="card" style="text-align:center;">
+    <a href="/upload" class="back-button">⬅ Upload Another Resume</a>
+  </div>
+
+</div>
+
+</body>
+</html>

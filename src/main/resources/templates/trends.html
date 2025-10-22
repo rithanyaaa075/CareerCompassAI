@@ -1,0 +1,53 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+async function loadTrends() {
+  try {
+    // ✅ Load the JSON file from static/data/
+    const response = await fetch('/data/trends.json');
+    const trends = await response.json();
+
+    // ✅ Extract keys and values
+    const labels = Object.keys(trends);
+    const values = Object.values(trends);
+
+    // ✅ Create the chart
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Number of Postings',
+          data: values,
+          backgroundColor: [
+            '#007bff', '#28a745', '#ff6f61', '#ffc107', '#6f42c1',
+            '#20c997', '#dc3545', '#17a2b8', '#6610f2', '#fd7e14'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#333',
+            titleColor: '#fff',
+            bodyColor: '#fff'
+          }
+        }
+      }
+    });
+  } catch (error) {
+    console.error("❌ Error loading trends.json:", error);
+  }
+}
+
+// ✅ Run the function when page loads
+loadTrends();
+</script>

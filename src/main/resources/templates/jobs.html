@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Explorer | CareerCompassAI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #161b22;
+            color: #58a6ff;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1, h2 {
+            color: #58a6ff;
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #238636;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #2ea043;
+        }
+
+        .job-section {
+            margin-top: 20px;
+        }
+
+        .job-card {
+            background-color: #161b22;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .job-card h3 {
+            color: #58a6ff;
+            margin-bottom: 8px;
+        }
+
+        .job-card a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        .job-card a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: #ff7b72;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .mock-data {
+            color: #ffa657;
+        }
+    </style>
+</head>
+<body>
+<header>🌐 CareerCompassAI - Job Explorer</header>
+
+<div class="container">
+    <h1>Find Your Next Career Opportunity</h1>
+
+    <!-- Search form -->
+    <form action="/getJobs" method="get">
+        <input type="text" name="role" placeholder="Search by role (e.g. Data Analyst, AI Engineer)" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Error Message -->
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <!-- Trending Section -->
+    <div th:if="${showTrending}">
+        <h2>🔥 Trending Tech Roles</h2>
+        <div th:each="entry : ${trendingJobs}">
+            <h3 th:text="${entry.key}"></h3>
+            <div th:each="job : ${entry.value}" class="job-card">
+                <h3 th:text="${job.title}">Job Title</h3>
+                <p><strong>Company:</strong> <span th:text="${job.company}">N/A</span></p>
+                <p><strong>Location:</strong> <span th:text="${job.location}">N/A</span></p>
+                <p th:text="${job.desc}">Job description...</p>
+                <a th:href="${job.link}" target="_blank">View Details →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results Section -->
+    <div th:if="${!showTrending}">
+        <h2 th:text="'Results for: ' + ${role}"></h2>
+        <div th:each="job : ${jobs}" class="job-card">
+            <h3 th:text="${job.title}"></h3>
+            <p><strong>Company:</strong> <span th:text="${job.company}"></span></p>
+            <p><strong>Location:</strong> <span th:text="${job.location}"></span></p>
+            <p th:text="${job.desc}"></p>
+            <a th:href="${job.link}" target="_blank">View Details →</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Your Resume | CareerCompassAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: radial-gradient(circle at top left, #001f3f, #001233, #000814);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+
+        .upload-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 50px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.1);
+            transition: 0.3s ease;
+        }
+
+        .upload-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(100, 255, 218, 0.3);
+        }
+
+        h1 {
+            color: #64ffda;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 15px;
+            width: 80%;
+            cursor: pointer;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        input[type="file"]:hover {
+            background: rgba(100, 255, 218, 0.15);
+        }
+
+        button {
+            background: linear-gradient(90deg, #00bcd4, #64ffda);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 35px;
+            color: #0a192f;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(100, 255, 218, 0.5);
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-size: 1rem;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        footer a {
+            color: #64ffda;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upload-card">
+        <h1>📄 Upload Your Resume</h1>
+        <p>Let CareerCompassAI analyze your skills & predict your best career fit.</p>
+
+        <!-- ✅ File upload form -->
+        <form action="/uploadResume" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".pdf,.doc,.docx" required>
+            <button type="submit">🚀 Analyze Resume</button>
+        </form>
+
+        <!-- ✅ Error message from controller -->
+        <p class="error" th:text="${error}"></p>
+    </div>
+
+    <footer>
+        © 2025 <a href="/">CareerCompassAI</a> | Powered by Spring Boot + AI 🔥
+    </footer>
+</body>
+</html>
